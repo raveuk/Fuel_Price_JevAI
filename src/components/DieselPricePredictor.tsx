@@ -232,7 +232,6 @@ export const DieselPricePredictor: React.FC = () => {
   const [predictionLatency, setPredictionLatency] = useState<number | null>(null);
   const [predictionError, setPredictionError] = useState<string | null>(null);
   const [customScenario, setCustomScenario] = useState<string>('');
-  const [copiedCode, setCopiedCode] = useState<boolean>(false);
 
   // Automatic live refresh states
   const [autoRefreshEnabled, setAutoRefreshEnabled] = useState<boolean>(true);
@@ -550,76 +549,6 @@ export const DieselPricePredictor: React.FC = () => {
     }
     return list;
   }, [data, searchQuery]);
-
-  const copyPythonSnippet = () => {
-    if (!data) return;
-    const m = data.marketOverview;
-    const snippet = `import asyncio
-from typesafe import AsyncTypeSafeClient
-
-async def forecast_uk_diesel_prices():
-    client = AsyncTypeSafeClient() # Reads TYPESAFE_API_KEY from environment
-    
-    # Condition Jev on live UK fuel market benchmarks (DESNZ, CMA, Platts, Bank of England)
-    uk_market_state = """
-    UK National Average Diesel Pump Price: ${m.ukNationalAveragePence.toFixed(1)}p/L (£${(m.ukNationalAveragePence / 100).toFixed(3)}/L)
-    UK Supermarket Forecourt Average: ${m.supermarketAveragePence.toFixed(1)}p/L (Asda, Tesco, Morrisons, Sainsbury's)
-    UK Motorway Service Area Average: ${m.motorwayAveragePence.toFixed(1)}p/L (+${(m.motorwayAveragePence - m.ukNationalAveragePence).toFixed(1)}p/L MSA premium)
-    Brent Crude Oil: $${m.liveBrentUSD.toFixed(2)}/bbl (£${m.brentGBP.toFixed(2)}/barrel)
-    GBP/USD Exchange Rate: $${m.liveGBPUSD.toFixed(4)}
-    UK Statutory Fuel Duty: ${m.fuelDutyPence}p/L (52.95p standard rate)
-    UK Fuel VAT: 20% (${m.vatPence.toFixed(1)}p/L)
-    Delivered Wholesale Gasoil (ARA Platts): ${m.wholesaleDeliveredPence.toFixed(1)}p/L
-    CMA Average Forecourt Margin: ${m.retailForecourtMarginPence}p/L
-    """
-    
-    questions = {
-        "uk_diesel_direction_7d": {
-            "type": "choice",
-            "prompt": "Predict UK national diesel price trend over next 7-14 days",
-            "options": [
-                "Sharp Increase (> +2.5p/L)",
-                "Moderate Rise (+0.8p to +2.5p/L)",
-                "Stable / Rangebound (±0.8p/L)",
-                "Softening / Easing (-0.8p to -2.5p/L)",
-                "Sharp Fall (> -2.5p/L)"
-            ]
-        },
-        "uk_supermarket_margin_behavior": {
-            "type": "choice",
-            "prompt": "Supermarket pricing response to current wholesale crude margins",
-            "options": [
-                "Supermarket Price War (absorb wholesale increases)",
-                "Widening Margins (retaining retail spreads)",
-                "Standard Margin Pass-Through",
-                "Aggressive Discount Vouchers"
-            ]
-        },
-        "uk_price_spike_risk_proposition": {
-            "type": "noul",
-            "statement": "Will the UK national average diesel price exceed ${(m.ukNationalAveragePence + 3.0).toFixed(1)}p/L in next 14 days?"
-        },
-        "uk_sterling_vulnerability_score": {
-            "type": "score",
-            "prompt": "Assess UK fuel pump price sensitivity to Sterling slides and crude supply shocks",
-            "levels": ["Minimal Risk", "Low Vulnerability", "Moderate Exposure", "High Currency Sensitivity", "Critical Supply Dislocation"]
-        }
-    }
-    
-    response = await client.predict(state=uk_market_state, questions=questions)
-    
-    print("Jev UK Diesel Forecast:")
-    print("Price Direction:", response.results["uk_diesel_direction_7d"].choice)
-    print("Confidence:", f"{response.results['uk_diesel_direction_7d'].confidence * 100:.1f}%")
-    print("Spike Risk Probability:", f"{response.results['uk_price_spike_risk_proposition'].probability * 100:.1f}%")
-
-if __name__ == "__main__":
-    asyncio.run(forecast_uk_diesel_prices())`;
-
-    navigator.clipboard.writeText(snippet);
-    setCopiedCode(true);
-    setTimeout(() => setCopiedCode(false), 2500);
-  };
 
   const m = data?.marketOverview;
 
@@ -970,8 +899,6 @@ if __name__ == "__main__":
         customScenario={customScenario}
         setCustomScenario={setCustomScenario}
         runJevForecast={runJevForecast}
-        copyPythonSnippet={copyPythonSnippet}
-        copiedCode={copiedCode}
       />
 
       {/* Statutory Price Breakdown & Interactive Vehicle Tank Calculator */}

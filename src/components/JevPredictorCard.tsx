@@ -15,9 +15,7 @@ import {
   Layers,
   CheckCircle2,
   Calendar,
-  ArrowRight,
-  Check,
-  Copy
+  ArrowRight
 } from 'lucide-react';
 
 export interface JevPredictorCardProps {
@@ -30,8 +28,6 @@ export interface JevPredictorCardProps {
   customScenario: string;
   setCustomScenario: (scenario: string) => void;
   runJevForecast: (scenario?: string) => Promise<void>;
-  copyPythonSnippet: () => void;
-  copiedCode: boolean;
 }
 
 export const JevPredictorCard: React.FC<JevPredictorCardProps> = ({
@@ -43,9 +39,7 @@ export const JevPredictorCard: React.FC<JevPredictorCardProps> = ({
   predictionLatency,
   customScenario: _customScenario,
   setCustomScenario,
-  runJevForecast,
-  copyPythonSnippet,
-  copiedCode
+  runJevForecast
 }) => {
   return (
     <div className="rounded-xl border border-amber-500/40 bg-gradient-to-b from-zinc-900 via-zinc-900 to-zinc-950 p-5 sm:p-6 space-y-6 shadow-xl relative overflow-hidden">
@@ -631,31 +625,14 @@ export const JevPredictorCard: React.FC<JevPredictorCardProps> = ({
         </div>
       )}
 
-      {/* Latency & Python SDK Code Generator */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-zinc-800/60 text-xs">
-        <div className="text-zinc-400 font-mono text-[11px]">
-          {predictionLatency && (
+      {/* Latency Footer */}
+      {predictionLatency && (
+        <div className="flex items-center justify-between gap-3 pt-3 border-t border-zinc-800/60 text-xs">
+          <div className="text-zinc-400 font-mono text-[11px]">
             <span>⚡ Jev Bayesian execution latency: {predictionLatency}ms</span>
-          )}
+          </div>
         </div>
-
-        <button
-          onClick={copyPythonSnippet}
-          className="flex items-center gap-1.5 rounded-lg bg-zinc-800/80 px-3 py-1.5 text-xs font-semibold text-zinc-200 hover:bg-zinc-700 transition-all cursor-pointer self-start sm:self-auto"
-        >
-          {copiedCode ? (
-            <>
-              <Check className="h-3.5 w-3.5 text-emerald-400" />
-              <span className="text-emerald-400">Copied Python Code</span>
-            </>
-          ) : (
-            <>
-              <Copy className="h-3.5 w-3.5 text-amber-400" />
-              <span>Copy Python SDK Script</span>
-            </>
-          )}
-        </button>
-      </div>
+      )}
     </div>
   );
 };
