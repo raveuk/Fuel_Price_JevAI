@@ -1,0 +1,6 @@
+{
+  "name": "TypeSafe AI Python SDK Async",
+  "description": "Interactive developer reference, Jev API key connector, live UK fuel prices (Petrol & Diesel) comparison & Jev AI probabilistic prediction, batch analysis, and next row number probability predictor using the TypeSafe AI Python SDK.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
