@@ -38,7 +38,6 @@ import {
 } from 'lucide-react';
 import { useApiKey } from '../context/ApiKeyContext';
 import { JevPredictorCard } from './JevPredictorCard';
-import { JevSystemOneImportance } from './JevSystemOneImportance';
 
 interface MarketOverview {
   country: string;
@@ -974,9 +973,6 @@ if __name__ == "__main__":
         copyPythonSnippet={copyPythonSnippet}
         copiedCode={copiedCode}
       />
-
-      {/* Importance of Jev Model: The System One Paradigm */}
-      <JevSystemOneImportance />
 
       {/* Statutory Price Breakdown & Interactive Vehicle Tank Calculator */}
       {m && (

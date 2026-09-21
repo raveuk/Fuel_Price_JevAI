@@ -1,6 +1,7 @@
 import React from 'react';
 import { Header } from './components/Header';
 import { DieselPricePredictor } from './components/DieselPricePredictor';
+import { JevSystemOneImportance } from './components/JevSystemOneImportance';
 import { ApiKeyProvider } from './context/ApiKeyContext';
 import { Terminal, ExternalLink, Fuel, Activity } from 'lucide-react';
 
@@ -11,7 +12,10 @@ function AppContent() {
       <Header activeTab="diesel" />
 
       {/* Main Content Area */}
-      <main className="mx-auto max-w-7xl px-4 py-4 sm:px-6">
+      <main className="mx-auto max-w-7xl px-4 py-4 sm:px-6 space-y-6">
+        {/* The Importance of the Jev Model - System One Architecture at Top of Page */}
+        <JevSystemOneImportance />
+
         {/* Sole Dedicated View: Live Fuel Prices & Jev Prediction Engine */}
         <DieselPricePredictor />
       </main>
